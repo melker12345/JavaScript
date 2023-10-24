@@ -74,6 +74,11 @@ function draw(deck) {
     return drawnCard;
 }
 
+function shuffle() {
+  
+}
+
+
 const myDeck = createDeck();
 
 for (let i = 0; i < 52; i++) {
