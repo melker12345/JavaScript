@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="index.js"></script> 
+    <!-- <script src="index.js"></script> -->
 
 </head>
-<body>
-    <style>
-        * {
-            background-color: black;
-        }
-    </style>
 
+<body style="background-color: black; color: aliceblue;">
+    <section id="players">
+        <h1>Spelare</h1>
+        <ol>
+            <li>Alice</li>
+            <li>Bob</li>
+            <li>Cesar</li>
+        </ol>
+    </section>
+    <script>
+        const liElements = document.querySelectorAll("#players ol li");
+
+        liElements.forEach(function(liElement) {
+            liElement.innerHTML += "<span class=\"credits\">100 credits</span>";
+        });
+
+    </script>
 </body>
+
 </html>
