@@ -1,12 +1,23 @@
-// const item = document.querySelector("#players");
-// console.log(item);
+//localStorage.setItem('a', session);
+//const session = sessionStorage.setItem('b', 'b');
 
-// const items = document.querySelectorAll("#players li");
-// console.log(items);
+// const usersArray = [{ name: 'Alice' }];
+// const usersJson = JSON.stringify(usersArray);
+// sessionStorage.setItem('users', usersJson);
 
-const item = document.getElementById("players");
-const items = Array.from(document.getElementsByTagName("li"));
 
-for (let i = 0; i < items.length; i++) {
-  console.log(items[i]);
-}
+const url = 'https://avancera.app/cities/';
+
+fetch(url)
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Error' + response.statusText);
+    }
+    return response.json();  
+  })
+  .then(data => {
+    localStorage.setItem('cities', JSON.stringify(data));
+  })
+  .catch(error => {
+    console.error('Error ', error);
+  });

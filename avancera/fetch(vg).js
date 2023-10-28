@@ -1,3 +1,45 @@
+// Uppgift: PATCH: Ändra namn och/eller befolkning (VG)
+
+const cityID = prompt("Skriv in stadens ID:");
+const cityName = prompt("Skriv in stadens namn:");
+const cityPopulation = parseInt(prompt("Skriv in stadens befolkning:"));
+
+if (cityID === null) {
+    alert("Inmatningen avbröts.");
+} else {
+    const cityData = {};
+
+    if (cityName !== null) {
+        cityData.name = cityName;
+    }
+
+    if (!isNaN(cityPopulation) && cityPopulation !== null) {
+        cityData.population = cityPopulation;
+    }
+    const numProperties = Object.keys(cityData).length;
+    if (numProperties === 0) {
+        console.log("Ingen uppdatering");
+    } else {
+        fetch(`https://avancera.app/cities/${cityID}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cityData),
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    console.log("Error");
+                }
+                return res.json();
+            })
+            .then((data) => {
+                console.log("Success");
+            })
+            .catch((error) => {
+                console.log("Error");
+            });
+    }
+}
+
 // POST
 
 // const cityName = prompt("Skriv in stadens namn:");
@@ -67,7 +109,7 @@
 // DELETE same as PUT resource needs to be specified
 // No body in fetch function needed
 
-// PATCH
+// Uppgift: PATCH: Ändra namn
 // const cityID = prompt("Skriv in stadens ID:");
 // const cityName = prompt("Skriv in stadens namn:");
 
@@ -90,40 +132,3 @@
 //         .then((data) => {console.log("Success")})
 //         .catch((error) => {console.log("Error")});
 // }
-
-
-const cityID = prompt("Skriv in stadens ID:");
-const cityName = prompt("Skriv in stadens namn:");
-const cityPopulation = prompt("Skriv in stadens befolkning:");
-
-if (cityID === null) {
-    alert("Inmatningen avbröts.");
-} else {
-    const cityData = {};
-
-    if (cityName !== null) {
-        cityData.name = cityName;
-    } 
-
-    if (cityPopulation !== null) {
-        cityData.population = cityPopulation;
-    }
-
-    fetch(`https://avancera.app/cities/${cityID}`, {
-        method: "PATCH",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(cityData),
-    })
-        .then((res) => {
-            if (!res.ok) {
-                console.log("Error");
-            }
-            return res.json();
-        })
-        .then((data) => {
-            console.log("Success");
-        })
-        .catch((error) => {
-            console.log("Error");
-        });
-}

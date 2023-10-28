@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- <script src="index.js"></script> -->
-
+    <meta charset="utf-8">
+    <title>submit (VG)</title>
 </head>
 
-<body style="background-color: black; color: aliceblue;">
-    <section id="players">
-        <h1>Spelare</h1>
-        <ol>
-            <li>Alice</li>
-            <li>Bob</li>
-            <li>Cesar</li>
-        </ol>
-    </section>
+<body>
+    <form id="form">
+        <label for="name">Namn</label>
+        <input id="name" placeholder="Namn">
+        <label>
+            <input id="consent" type="checkbox">
+            Jag samtycker
+        </label>
+        <input id="send" type="submit" value="Skicka">
+        <p id="greeting"></p>
+        <div id="errors" style="color: red; display: none;">
+            <p>Fel:</p>
+            <ul>
+                <li id="name-error">Vänligen fyll i ett namn</li>
+                <li id="consent-error">Samtycke måste lämnas</li>
+            </ul>
+        </div>
+    </form>
     <script>
-        const liElements = document.querySelectorAll("#players ol li");
-
-        liElements.forEach(function(liElement) {
-            liElement.innerHTML += "<span class=\"credits\">100 credits</span>";
-        });
 
     </script>
 </body>
