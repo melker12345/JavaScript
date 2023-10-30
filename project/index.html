@@ -2,31 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Google Stock Chart</title>
+    <!-- Include Chart.js from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <header>Min ekonomi</header>
-    <nav>
-        <a href="#">Översikt</a>
-        <a href="#">Innehav</a>
-        <a href="#">Aktiva ordrar</a>
-    </nav>
-    <div id="chart">Chart Placeholder (Integrate with Chart.js)</div>
-    <div id="timeframe-nav">
-        <button>1D</button>
-        <button>1W</button>
-        <button>1M</button>
-        <button>3M</button>
-        <button>1Y</button>
-        <button>SEK</button>
-        <button>%</button>
+    <!-- Canvas element where the chart will be drawn -->
+    <div style="width: 600px; height: 400px;">
+        <canvas id="stockChart"></canvas>
     </div>
-    <div>buy option</div>
+
     <script>
-        // JavaScript for interactivity can be added here
+        const symbol = "AAPL"
+        const apiKey = "SMO8KH6P855A2BS3"; // Replace with your actual API key
+        const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+
+        async function fetchData() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                const timeSeries = data['Time Series (5min)'];
+                const labels = Object.keys(timeSeries);
+                const stockPrices = labels.map(time => parseFloat(timeSeries[time]['4. close']));
+
+                return {
+                    labels: labels.reverse(), // Reverse to have the earliest time first
+                    datasets: [{
+                        label: `${symbol} Stock Price`,
+                        data: stockPrices.reverse(), // Reverse to match the labels order
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                };
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchData().then(data => {
+            if (data) {
+                createChart(data);
+            }
+        });
+
+        // Function to create a chart
+        function createChart(data) {
+            const ctx = document.getElementById('stockChart').getContext('2d');
+            const stockChart = new Chart(ctx, {
+                type: 'line',
+                data: data,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
     </script>
 </body>
 </html>
