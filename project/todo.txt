@@ -1,0 +1,15 @@
+Caching the Symbols: 
+You can cache the list of symbols either in the browser's localStorage (if the list doesn't change often)
+or in a session variable. This way, you only need to fetch the full list once per session or less frequently.
+
+Lazy Loading: 
+Implement lazy loading in the dropdown. Initially, load a subset of symbols (like the most popular ones) 
+and then fetch and add more as the user scrolls down the list.
+
+Search with Autocomplete: 
+Instead of a dropdown with all symbols, use a search box with autocomplete functionality. 
+As the user types, fetch and suggest symbols that match the input.
+
+Load on Demand: 
+Instead of fetching all symbols at once, consider loading them on demand 
+when the user starts typing in the dropdown search field.

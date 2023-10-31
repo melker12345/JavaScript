@@ -2,19 +2,49 @@
     overflow-x: hidden;
     color: #e8e6e3 ;
     background-color: #191b1c;
+    padding: 0;
+    margin: 0;
 }
 
 
 /* Basic styles for header and navigation */
 header {
-    background-color: #181a1b;
-    padding: 2rem 10rem ;
+    background-color: #36647b;
+    padding: 2rem 2rem 2rem 5rem ;
     font-size: 1.5rem;
+    display: flex;
+    flex-direction: row;    
+}
+#logo {
+    margin-right: 2rem;
+    width: fit-content;
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo p{
+    color: lightgreen;
+    font-size: 18px;
+}
+
+#balance-Div{
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-left: 2rem;
+    border: solid 1px red;
+    border-radius: 2rem;
+}
+#balance{
+    font-size: 18px;
 }
 nav {
     background-color: #191b1c;
     color: white;
     display: flex;
+    width: 90%;
     justify-content: space-around;
     padding: 0.5rem 0;
 }
@@ -28,16 +58,17 @@ nav a:hover {
 }
 /* Placeholder for the chart */
 #chart {
-    width: 90%;
-    height: 600px;
-    margin: 1rem auto;
-    background-color: #181a1b;
+    
+    width: 60%;
+    height: auto;
+    margin: 5rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 #stockChart{
     width: 100%;
+    border: 1px solid red;
 }
 /* Time frame navigation */
 #timeframe-nav {
