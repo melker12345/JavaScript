@@ -1,128 +1,128 @@
 const apiKey = "RVFIMWMC4KB7C7N6";
-let stockChart; // This will hold our chart instance
+let stockChart;
+let currentSymbol = ""; // Keep track of the currently selected symbol
 
-// Function to create a chart
+// Function to create/update a chart
 function createChart(data, symbol) {
-    const ctx = document.getElementById('stockChart').getContext('2d');
+    const ctx = document.getElementById("stockChart").getContext("2d");
     if (stockChart) {
-        stockChart.destroy(); // Destroy the old chart instance before creating a new one
+        stockChart.destroy();
     }
+
     stockChart = new Chart(ctx, {
-        type: 'line',
+        type: "line",
         data: {
             labels: data.labels,
-            datasets: [{
-                label: `${symbol} Stock Price`,
-                data: data.datasets[0].data,
-                fill: false,
-                borderColor: '#0ca8f6',
-                tension: 0.1
-            }]
+            datasets: [
+                {
+                    label: `${symbol} Stock Price`,
+                    data: data.prices,
+                    borderColor: "#0ca8f6",
+                },
+            ],
         },
         options: {
             scales: {
+                x: {
+                    ticks: {
+                        display: true, // This will remove the labels on the x-axis
+                    },
+                },
                 y: {
-                    beginAtZero: false
-                }
+                    // Assuming you want to keep the y-axis labels
+                    beginAtZero: false,
+                },
             },
             responsive: true,
-            title: {
-                display: true,
-                text: `Stock Price of ${symbol}`
-            }
-        }
+            plugins: {
+                title: {
+                    display: true,
+                    text: `Stock Price of ${symbol}`,
+                },
+                legend: {
+                    display: false, // Assuming you don't want to show the legend
+                },
+            },
+        },
     });
 }
 
-// Function to fetch data for the selected symbol
-async function fetchData(symbol) {
-    const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=${apiKey}`;
-    const response = await fetch(apiUrl);
+// Function to fetch stock data
+async function fetchData(symbol, interval) {
+    const functionType =
+        interval === "1d" ? "TIME_SERIES_DAILY" : "TIME_SERIES_INTRADAY";
+    const url = `https://www.alphavantage.co/query?function=${functionType}&symbol=${symbol}&interval=${interval}&apikey=${apiKey}`;
+    const response = await fetch(url);
     const data = await response.json();
-    const timeSeries = data['Time Series (Daily)'];
-    const labels = Object.keys(timeSeries).reverse();
-    const stockPrices = labels.map(date => parseFloat(timeSeries[date]['4. close']));
-
-    return {
-        labels: labels,
-        datasets: [{
-            label: `${symbol} Stock Price`,
-            data: stockPrices,
-            fill: false,
-            borderColor: 'rgb(0,0,0)',
-            tension: 0.1
-        }]
-    };
+    const timeSeriesKey =
+        functionType === "TIME_SERIES_DAILY"
+            ? "Time Series (Daily)"
+            : `Time Series (${interval})`;
+    const labels = [];
+    const prices = [];
+    for (let [date, value] of Object.entries(data[timeSeriesKey])) {
+        labels.unshift(date);
+        prices.unshift(value["4. close"]);
+    }
+    return { labels, prices };
 }
 
-// Placeholder function for fetching symbols from the API
-async function fetchSymbols() {
-    const apiUrl = `https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=${apiKey}`;
-    const response = await fetch(apiUrl);
-    const text = await response.text();
-    const rows = text.trim().split('\n');
-    const symbols = rows.slice(1).map(row => row.split(',')[0]);
-    return symbols;
-}
-
-// Function to populate the symbol selector dropdown with symbols fetched from the API
-async function populateSymbols() {
-    const symbols = await fetchSymbols();
-    const selector = document.getElementById('symbolSelector');
-    symbols.forEach(symbol => {
-        const option = document.createElement('option');
-        option.value = symbol;
-        option.textContent = symbol;
-        selector.appendChild(option);
-    });
-
-    // Trigger change event to load initial chart after populating the dropdown
-    selector.dispatchEvent(new Event('change'));
-}
 // Function to display search results
 function displaySearchResults(matches) {
-    const resultsDiv = document.getElementById('searchResults');
-    resultsDiv.innerHTML = ''; // Clear previous results
-
-    matches.forEach((match) => {
-        const symbol = match['1. symbol'];
-        const name = match['2. name'];
-        const div = document.createElement('div');
-        div.textContent = `${name} (${symbol})`;
-        div.addEventListener('click', () => {
-            document.getElementById('symbolSelector').value = symbol;
-            document.getElementById('symbolSelector').dispatchEvent(new Event('change'));
-            resultsDiv.innerHTML = ''; // Clear results after selection
-        });
-        resultsDiv.appendChild(div);
-    });
+    document.getElementById("searchResults").innerHTML = matches
+        .map(
+            (match) =>
+                `<div onclick="selectSymbol('${match["1. symbol"]}', '5min')">
+            ${match["2. name"]} (${match["1. symbol"]})
+        </div>`
+        )
+        .join("");
 }
 
-// Event listener for search input
-document.getElementById('symbolSearch').addEventListener('input', async (event) => {
-    const keyword = event.target.value;
-
-    if (keyword.length < 2) { // Only search if the user has typed at least 3 characters
-        return;
-    }
-
-    const searchApiUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${apiKey}`;
-    try {
-        const response = await fetch(searchApiUrl);
-        const searchData = await response.json();
-        if (searchData.bestMatches) {
-            displaySearchResults(searchData['bestMatches']);
-        }
-    } catch (error) {
-        console.error('Error fetching search results:', error);
-    }
-});
-// Event listener for when a new symbol is selected
-document.getElementById('symbolSelector').addEventListener('change', async function () {
-    const symbol = this.value;
-    const data = await fetchData(symbol);
+// Function to handle selection of a symbol
+async function selectSymbol(symbol, interval = "5min") {
+    currentSymbol = symbol; // Update the current symbol
+    const data = await fetchData(symbol, interval);
     createChart(data, symbol);
-});
+    document.getElementById("searchResults").innerHTML = "";
+}
 
-// Call `populateSymbols` on page load to fetch symbols and populate the dropdown
-window.addEventListener('load', populateSymbols);
+// Event listener for the search input
+document
+    .getElementById("symbolSearch")
+    .addEventListener("input", async (event) => {
+        const keyword = event.target.value.trim();
+        if (keyword.length >= 3) {
+            const url = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${keyword}&apikey=${apiKey}`;
+            const response = await fetch(url);
+            const searchData = await response.json();
+            displaySearchResults(searchData["bestMatches"] || []);
+        }
+    });
+
+// Event listeners for buttons
+document
+    .getElementById("dayBtn")
+    .addEventListener("click", () => selectSymbol(currentSymbol, "5min"));
+document
+    .getElementById("fiveDayBtn")
+    .addEventListener("click", () => selectSymbol(currentSymbol, "30min"));
+document
+    .getElementById("monthBtn")
+    .addEventListener("click", () => selectSymbol(currentSymbol, "1d"));
+document
+    .getElementById("yearBtn")
+    .addEventListener("click", () => selectSymbol(currentSymbol, "1d"));
+document
+    .getElementById("maxBtn")
+    .addEventListener("click", () => selectSymbol(currentSymbol, "1d")); // '1d' can be changed to a different interval if needed
+
+// Update the selectSymbol function in the displaySearchResults to include the default interval
+function updateSearchResultsClick() {
+    const searchResults = document.getElementById("searchResults").children;
+    for (let i = 0; i < searchResults.length; i++) {
+        searchResults[i].addEventListener("click", () =>
+            selectSymbol(searchResults[i].getAttribute("data-symbol"), "5min")
+        );
+    }
+}
