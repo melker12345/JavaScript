@@ -1,6 +1,6 @@
-*{
+* {
     overflow-x: hidden;
-    color: #e8e6e3 ;
+    color: #e8e6e3;
     background-color: #191b1c;
     padding: 0;
     margin: 0;
@@ -9,12 +9,15 @@
 
 /* Basic styles for header and navigation */
 header {
-    background-color: #36647b;
-    padding: 2rem 2rem 2rem 5rem ;
+    background-color: inherit;
+    padding: 1rem 5rem 1rem 5rem;
     font-size: 1.5rem;
     display: flex;
-    flex-direction: row;    
+    margin-bottom: 3rem;
+    border-bottom: #000 1px solid;
+
 }
+
 #logo {
     margin-right: 2rem;
     width: fit-content;
@@ -24,52 +27,102 @@ header {
     align-items: center;
 }
 
-#logo p{
-    color: lightgreen;
+#logo p {
+    color: #0ca8f6;
     font-size: 18px;
 }
 
-#balance-Div{
+#balance-Div {
     display: flex;
     align-items: center;
-    padding: 10px;
-    margin-left: 2rem;
-    border: solid 1px red;
-    border-radius: 2rem;
+    margin-left: 1px;
+    width: fit-content;
+    background-color: #0b0c0c;
+    border-radius: 50px;
 }
-#balance{
+
+#balance {
     font-size: 18px;
+    margin: 10px;
+    background-color: inherit;
+    color: #0ca8f6;
 }
+
 nav {
     background-color: #191b1c;
-    color: white;
+    color: rgb(255, 255, 255);
     display: flex;
     width: 90%;
     justify-content: space-around;
     padding: 0.5rem 0;
 }
+
 nav a {
-    color: white;
+    color: #0ca8f6;
     text-decoration: none;
     padding: 0.5rem 1rem;
+    background-color: #0b0c0c;
+    border-radius: 50px;
 }
+
 nav a:hover {
     background-color: #555;
+    border-radius: 50px;
 }
+
+#searchbar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+#symbolSearch{
+    border: 1px solid #0b0c0c;
+    height: 30px;
+    width: 33%;
+    text-align: center;
+
+}
+#symbolSearch {
+   text-decoration: none;
+}
+
+#searchResultsContainer{
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#searchResults {
+    width: 33%;
+
+}
+
+#searchResults > div {
+    padding: 10px;
+    margin-top: 5px;
+    background-color: #121212;
+    cursor: pointer;
+}
+
 /* Placeholder for the chart */
 #chart {
-    
     width: 60%;
     height: auto;
     margin: 5rem auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #0ca8f6;
 }
-#stockChart{
+
+#stockChart {
     width: 100%;
-    border: 1px solid red;
+    border: 1px solid #0b0c0c;
 }
+
 /* Time frame navigation */
 #timeframe-nav {
     display: flex;
