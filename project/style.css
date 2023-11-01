@@ -1,7 +1,9 @@
 * {
+    --bg: #191b1c;
+    --fg: #0ca8f6;
+    --black: #000;
     overflow-x: hidden;
-    color: #e8e6e3;
-    background-color: #191b1c;
+    background-color: var(--bg);
     padding: 0;
     margin: 0;
 }
@@ -14,7 +16,7 @@ header {
     font-size: 1.5rem;
     display: flex;
     margin-bottom: 3rem;
-    border-bottom: #000 1px solid;
+    border-bottom: --black 1px solid;
 
 }
 
@@ -28,7 +30,7 @@ header {
 }
 
 #logo p {
-    color: #0ca8f6;
+    color: var(--fg);
     font-size: 18px;
 }
 
@@ -45,12 +47,11 @@ header {
     font-size: 18px;
     margin: 10px;
     background-color: inherit;
-    color: #0ca8f6;
+    color: var(--fg);
 }
 
 nav {
-    background-color: #191b1c;
-    color: rgb(255, 255, 255);
+    background-color: --bg;
     display: flex;
     width: 90%;
     justify-content: space-around;
@@ -58,11 +59,10 @@ nav {
 }
 
 nav a {
-    color: #0ca8f6;
+    color: var(--fg);
     text-decoration: none;
     padding: 0.5rem 1rem;
-    background-color: #0b0c0c;
-    border-radius: 50px;
+    background-color: --black000;
 }
 
 nav a:hover {
@@ -74,7 +74,7 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
 }
 
 #symbolSearch{
@@ -82,6 +82,8 @@ nav a:hover {
     height: 30px;
     width: 33%;
     text-align: center;
+    border-radius: 10px;
+    color: var(--fg);
 
 }
 #symbolSearch {
@@ -93,6 +95,8 @@ nav a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    color: var(--fg);
+    
 }
 
 #searchResults {
@@ -115,7 +119,7 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #0ca8f6;
+    color: var(--fg);
 }
 
 #stockChart {

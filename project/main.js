@@ -15,7 +15,7 @@ function createChart(data, symbol) {
                 label: `${symbol} Stock Price`,
                 data: data.datasets[0].data,
                 fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                borderColor: '#0ca8f6',
                 tension: 0.1
             }]
         },
