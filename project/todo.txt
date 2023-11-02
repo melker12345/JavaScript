@@ -1,6 +1,11 @@
+dropdown phuses down frame 
+
 stocks:
     api
     time frames 
+
+
+
 
 
 

@@ -29,7 +29,7 @@ function createChart(data, symbol) {
                     },
                 },
                 y: {
-                    // Assuming you want to keep the y-axis labels
+                    // y-axis labels
                     beginAtZero: false,
                 },
             },
@@ -37,7 +37,7 @@ function createChart(data, symbol) {
             plugins: {
                 title: {
                     display: true,
-                    text: `Stock Price of ${symbol}`,
+                    text: `Stock Price of ${symbol}: ${currentSymbol} `,
                 },
                 legend: {
                     display: false, // Assuming you don't want to show the legend
@@ -48,16 +48,27 @@ function createChart(data, symbol) {
 }
 
 // Function to fetch stock data
+// Function to fetch stock data
 async function fetchData(symbol, interval) {
-    const functionType =
-        interval === "1d" ? "TIME_SERIES_DAILY" : "TIME_SERIES_INTRADAY";
-    const url = `https://www.alphavantage.co/query?function=${functionType}&symbol=${symbol}&interval=${interval}&apikey=${apiKey}`;
+    let functionType;
+    let timeSeriesKey;
+
+    if (interval === "1wk") {
+        functionType = "TIME_SERIES_WEEKLY";
+        timeSeriesKey = "Weekly Time Series";
+    } else {
+        functionType =
+            interval === "1d" ? "TIME_SERIES_DAILY" : "TIME_SERIES_INTRADAY";
+        timeSeriesKey =
+            functionType === "TIME_SERIES_DAILY"
+                ? "Time Series (Daily)"
+                : `Time Series (${interval})`;
+    }
+    
+    const url = `https://www.alphavantage.co/query?function=${functionType}&symbol=${symbol}${interval !== "1wk" ? `&interval=${interval}` : ''}&apikey=${apiKey}`;
     const response = await fetch(url);
     const data = await response.json();
-    const timeSeriesKey =
-        functionType === "TIME_SERIES_DAILY"
-            ? "Time Series (Daily)"
-            : `Time Series (${interval})`;
+
     const labels = [];
     const prices = [];
     for (let [date, value] of Object.entries(data[timeSeriesKey])) {
@@ -115,7 +126,7 @@ document
     .addEventListener("click", () => selectSymbol(currentSymbol, "1d"));
 document
     .getElementById("maxBtn")
-    .addEventListener("click", () => selectSymbol(currentSymbol, "1d")); // '1d' can be changed to a different interval if needed
+    .addEventListener("click", () => selectSymbol(currentSymbol, "1wk")); // '1d' can be changed to a different interval if needed
 
 // Update the selectSymbol function in the displaySearchResults to include the default interval
 function updateSearchResultsClick() {
