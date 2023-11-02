@@ -48,7 +48,6 @@ function createChart(data, symbol) {
 }
 
 // Function to fetch stock data
-// Function to fetch stock data
 async function fetchData(symbol, interval) {
     let functionType;
     let timeSeriesKey;
