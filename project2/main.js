@@ -38,8 +38,8 @@ function toggleView() {
 function createUserHTML(user) {
     return `
         <div id="user-${user.id}">
-            <h3>${user.first_name} ${user.last_name}</h3>
-            <p>Email: ${user.email}</p>
+            <h4>${user.first_name} ${user.last_name}</h4>
+            <p>${user.email}</p>
             <button aria-label="Update user" onclick="updateUser(${user.id})">Update</button>
             <button aria-label="Delete user" onclick="deleteUser(${user.id})">Delete</button>
         </div>
@@ -101,7 +101,6 @@ function deleteUser(userId) {
                 const numericId = parseInt(userId, 10);
                 rawData.data = rawData.data.filter(user => user.id !== numericId);
 
-                // This check is necessary to prevent an error if the user is not found in the DOM
                 const userDiv = document.getElementById(`user-${userId}`);
                 if (userDiv) {
                     userDiv.parentNode.removeChild(userDiv);

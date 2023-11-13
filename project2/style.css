@@ -1,80 +1,72 @@
 * {
-    --bg: #191b1c;
-    --bg2: #151718;
-    --fg: #efefef;
-    --black: #000;
-    color: var(--fg);
-    font-family:ui-sans-serif,system-ui;
     overflow-x: hidden;
-    background-color: var(--bg);
-    padding: 0;
-    margin: 0;
-}
 
-
-/* Basic styles for header and navigation */
-header {
-    background-color: inherit;
-    padding: 1rem 5rem 1rem 5rem;
-    font-size: 1.5rem;
-    display: flex;
-    margin-bottom: 1rem;
-    border-bottom: var(--black) 1px solid;
 
 }
-
-#logo {
-    width: fit-content;
+header{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: row;
+
 }
 
-#logo p {
-    color: var(--fg);
-    font-size: 18px;
-}
-
-nav {
-    width: 50%;
-    padding: 0.5rem 0;
-    margin: auto ;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-nav a {
-    margin-left: 5rem;
-    margin-right: 5rem;
-    padding: 1rem;
-    color: var(--fg);
+header a {    
     text-decoration: none;
-
+    margin: 2ch;
+    color: #333;
+    padding: 5px;
 }
 
-nav a:hover {
-    color: #555;
+header a:hover {
+    
+    border-radius: 5px;
+    background-color: rgb(35, 35, 35, 0.1); 
+    color: #000000;
 }
-
-h1{
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    align-items: center;
-}
-
 
 body {
+    min-height: 100vh;
+    position: relative;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #f0f0f0;
 }
+
+h1 {
+    color: #333;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+h4 {
+    margin: 5px;
+    color: #333;
+}
+
+p {
+    margin-top: 0;
+    font-size: 12px;
+}
+
+#toogleJson{
+    margin-bottom: 3rem;
+}
+
+#posts{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 .user-container {
     background-color: white;
     border-radius: 8px;
@@ -83,14 +75,17 @@ body {
     padding: 10px;
     width: 300px;
 }
+
 .user-container h3 {
     margin: 5px 0;
     color: #555;
 }
+
 .user-container p {
     margin: 5px 0;
     color: #777;
 }
+
 .user-container button {
     background-color: #007bff;
     border: none;
@@ -100,18 +95,22 @@ body {
     margin-right: 5px;
     cursor: pointer;
 }
+
 .user-container button:hover {
     background-color: #0056b3;
 }
+
 #input-container {
     margin-bottom: 20px;
 }
+
 #input-container input {
     margin-right: 5px;
     padding: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #1571d2;
     border-radius: 4px;
 }
+
 #input-container button {
     background-color: #28a745;
     border: none;
@@ -120,6 +119,50 @@ body {
     padding: 5px 10px;
     cursor: pointer;
 }
+
 #input-container button:hover {
     background-color: #218838;
+}
+
+#jsonView {
+    width: 40vw;
+    padding: 3em;
+    background-color: #333;
+    color: #fff;
+    border-radius: 10px;
+}
+
+
+body {
+    padding-bottom: 5rem; /* height of the footer */
+}
+
+footer{
+    width: 100%;
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+}
+footer a {
+    margin-left: 1ch;
+    color: #047af8;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+
+@media (max-width: 650px) {
+    #jsonView {
+        width: 90vw;
+    }
+
+    #input-container {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    input {
+        margin-bottom: 10px
+    }
 }
