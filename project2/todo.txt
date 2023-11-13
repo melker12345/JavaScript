@@ -1,0 +1,17 @@
+
+index.html
+
+    goal: 
+        users consists of name and email
+        create new users 
+        update current users
+        delete users
+
+
+chart.html
+    goal:
+        total users
+        most common name
+        most common email 
+
+

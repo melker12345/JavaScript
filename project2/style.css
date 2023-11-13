@@ -1,0 +1,125 @@
+* {
+    --bg: #191b1c;
+    --bg2: #151718;
+    --fg: #efefef;
+    --black: #000;
+    color: var(--fg);
+    font-family:ui-sans-serif,system-ui;
+    overflow-x: hidden;
+    background-color: var(--bg);
+    padding: 0;
+    margin: 0;
+}
+
+
+/* Basic styles for header and navigation */
+header {
+    background-color: inherit;
+    padding: 1rem 5rem 1rem 5rem;
+    font-size: 1.5rem;
+    display: flex;
+    margin-bottom: 1rem;
+    border-bottom: var(--black) 1px solid;
+
+}
+
+#logo {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo p {
+    color: var(--fg);
+    font-size: 18px;
+}
+
+nav {
+    width: 50%;
+    padding: 0.5rem 0;
+    margin: auto ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+nav a {
+    margin-left: 5rem;
+    margin-right: 5rem;
+    padding: 1rem;
+    color: var(--fg);
+    text-decoration: none;
+
+}
+
+nav a:hover {
+    color: #555;
+}
+
+h1{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.user-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 10px 0;
+    padding: 10px;
+    width: 300px;
+}
+.user-container h3 {
+    margin: 5px 0;
+    color: #555;
+}
+.user-container p {
+    margin: 5px 0;
+    color: #777;
+}
+.user-container button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+.user-container button:hover {
+    background-color: #0056b3;
+}
+#input-container {
+    margin-bottom: 20px;
+}
+#input-container input {
+    margin-right: 5px;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+#input-container button {
+    background-color: #28a745;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+#input-container button:hover {
+    background-color: #218838;
+}
