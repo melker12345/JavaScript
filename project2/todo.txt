@@ -1,12 +1,11 @@
 
 index.html
-
     goal: 
         users consists of name and email
-        create new users 
+        create new users
+            POST request  
         delete users
-
-*       update current users
+        update current users
 
 chart.html
     goal:
@@ -17,5 +16,5 @@ chart.html
 
 Issues:
     CORS error caused by export 
-    updateonly update the htmlView not hte object itself in rawData
+    updateBtnw only updates the htmlView not the object itself in rawData
 

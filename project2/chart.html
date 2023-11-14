@@ -11,68 +11,6 @@
 </head>
 
 <body>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-            font-family: Arial, sans-serif;
-        }
-
-        header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row;
-
-        }
-
-        header a {
-            text-decoration: none;
-            margin: 2ch;
-            color: #333;
-            padding: 5px;
-        }
-
-        header a:hover {
-
-            border-radius: 5px;
-            background-color: rgb(35, 35, 35, 0.1);
-            color: #000000;
-        }
-
-        body {
-            width: 100vw;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-            border: 5px solid red;
-
-        }
-
-        #chartContainercon {
-            margin-top: 5rem;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        #chartContainer {
-            width: 33%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-
-        h1 {
-            color: #333;
-            margin-top: 2rem;
-            margin-bottom: 5rem;
-        }
-    </style>
-
     <header>
         <a href="chart.html" id="chart">Chart</a>
         <a href="index.html" id="index">index</a>
@@ -84,10 +22,36 @@
         </div>
     </div>
     <script>
-        console.log(localStorage.getItem('rawData'));
         const rawData = JSON.parse(localStorage.getItem('rawData') || '{}');
+
+        function getMostCommonDomain(data) {
+            const domainCounts = data.reduce((acc, user) => {
+                
+                const domain = user.email.split('@')[1];
+
+                acc[domain] = (acc[domain] || 0) + 1; // acc is the accumulator and it is set to an object with the domain as the key and the count as the value
+                return acc;
+
+            }, 
+            
+            {}); 
+            // the domainCounts function works by taking the data array and reducing it to an object with the domain as the key and the count as the value
+
+            let maxCount = 0;
+            let mostCommonDomain = '';
+
+            for (const domain in domainCounts) {
+                if (domainCounts[domain] > maxCount) {
+                    maxCount = domainCounts[domain];
+                    mostCommonDomain = domain;
+                }
+            }
+
+            return { mostCommonDomain, count: maxCount };
+        }
+
         const userCount = Array.isArray(rawData.data) ? rawData.data.length : 0;
-        const placeholderMetric = 5; // This could be replaced with a real metric
+        const { mostCommonDomain, count } = getMostCommonDomain(rawData.data || []); // the || [] is a fallback in case rawData.data is undefined
 
         function renderUserChart() {
             const ctx = document.getElementById('userChart').getContext('2d');
@@ -95,30 +59,39 @@
             const chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: ['Metrics'],
-                    datasets: [
-                        {
-                            label: 'Number of Users in local storage',
-                            data: [userCount],
-                            backgroundColor: '#4198d7',
-                            borderColor: '#4198d7',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Placeholder Metric',
-                            data: [placeholderMetric],
-                            backgroundColor: '#e55759',
-                            borderColor: '#e55759',
-                            borderWidth: 1
-                        }
-                    ]
+                    labels: ['Number of Users', 'Most Common Email Domain'],
+                    datasets: [{
+                        label: 'Users',
+                        data: [userCount, count],
+                        backgroundColor: [
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)'
+                        ],
+                        borderWidth: 3
+                    }]
                 },
                 options: {
                     scales: {
                         y: {
                             beginAtZero: true
                         }
-                    }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    if (context.dataIndex === 1) {
+                                        return mostCommonDomain + ': ' + context.raw;
+                                    }
+                                    return context.dataset.label + ': ' + context.raw;
+                                } // this function is used to display the domain name in the tooltip
+                            }
+                        }
+                    } // 
                 }
             });
         }
