@@ -4,9 +4,9 @@ index.html
     goal: 
         users consists of name and email
         create new users 
-        update current users
         delete users
 
+*       update current users
 
 chart.html
     goal:
@@ -14,4 +14,8 @@ chart.html
         most common name
         most common email 
 
+
+Issues:
+    CORS error caused by export 
+    updateonly update the htmlView not hte object itself in rawData
 

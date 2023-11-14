@@ -1,14 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User info</title>
-    <link rel="stylesheet" href="chart.html">
+    <link rel="stylesheet" href="chart.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
+
 <body>
-    
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+
+        }
+
+        header a {
+            text-decoration: none;
+            margin: 2ch;
+            color: #333;
+            padding: 5px;
+        }
+
+        header a:hover {
+
+            border-radius: 5px;
+            background-color: rgb(35, 35, 35, 0.1);
+            color: #000000;
+        }
+
+        body {
+            width: 100vw;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            border: 5px solid red;
+
+        }
+
+        #chartContainercon {
+            margin-top: 5rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #chartContainer {
+            width: 33%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        h1 {
+            color: #333;
+            margin-top: 2rem;
+            margin-bottom: 5rem;
+        }
+    </style>
+
+    <header>
+        <a href="chart.html" id="chart">Chart</a>
+        <a href="index.html" id="index">index</a>
+    </header>
+
+    <div id="chartContainercon">
+        <div id="chartContainer">
+            <canvas id="userChart" width="100" height="100"></canvas>
+        </div>
+    </div>
+    <script>
+        console.log(localStorage.getItem('rawData'));
+        const rawData = JSON.parse(localStorage.getItem('rawData') || '{}');
+        const userCount = Array.isArray(rawData.data) ? rawData.data.length : 0;
+        const placeholderMetric = 5; // This could be replaced with a real metric
+
+        function renderUserChart() {
+            const ctx = document.getElementById('userChart').getContext('2d');
+
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Metrics'],
+                    datasets: [
+                        {
+                            label: 'Number of Users in local storage',
+                            data: [userCount],
+                            backgroundColor: '#4198d7',
+                            borderColor: '#4198d7',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Placeholder Metric',
+                            data: [placeholderMetric],
+                            backgroundColor: '#e55759',
+                            borderColor: '#e55759',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        renderUserChart();
+    </script>
+
 </body>
+
 </html>

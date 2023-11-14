@@ -1,6 +1,5 @@
-
-const apiUrl = "https://reqres.in/api/users";
 let rawData = {}; // Variable to store raw JSON data
+const apiUrl = "https://reqres.in/api/users";
 let isJsonView = false; // Flag to toggle view
 
 function fetchUsers() {
@@ -24,6 +23,7 @@ function renderUsers() {
     rawData.data.forEach(user => {
         usersDiv.innerHTML += createUserHTML(user); // Add each user
     });
+    renderUserChart()
 }
 
 function toggleView() {
@@ -117,3 +117,4 @@ function deleteUser(userId) {
 }
 
 fetchUsers();   
+

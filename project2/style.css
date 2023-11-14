@@ -1,5 +1,6 @@
 * {
     overflow-x: hidden;
+    font-family: Arial, sans-serif;
 
 
 }
@@ -28,7 +29,6 @@ header a:hover {
 body {
     min-height: 100vh;
     position: relative;
-    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -130,6 +130,12 @@ p {
     background-color: #333;
     color: #fff;
     border-radius: 10px;
+}
+
+
+#userChart{
+    width: 500px;
+    height: 500px;
 }
 
 
