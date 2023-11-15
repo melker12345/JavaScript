@@ -30,10 +30,18 @@ function renderUsers() {
 
 function toggleView() {
     isJsonView = !isJsonView;
-    document.getElementById("posts").style.display = isJsonView ? "none" : "block";
-    document.getElementById("jsonView").style.display = isJsonView ? "block" : "none";
+    document.getElementById("posts").style.display = isJsonView
+        ? "none"
+        : "block";
+    document.getElementById("jsonView").style.display = isJsonView
+        ? "block"
+        : "none";
     if (isJsonView) {
-        document.getElementById("jsonView").textContent = JSON.stringify(rawData, null, 2);
+        document.getElementById("jsonView").textContent = JSON.stringify(
+            rawData,
+            null,
+            2
+        );
     }
 }
 
@@ -49,10 +57,26 @@ function createUserHTML(user) {
 }
 
 function createUser() {
+    // Get values from input fields
     const name = document.getElementById("userName").value;
     const lastName = document.getElementById("userLastName").value;
     const email = document.getElementById("userEmail").value;
 
+    // Check if any of the input fields are empty
+    if (!name || !lastName || !email) {
+        console.error("All fields are required");
+        alert("Please fill in all fields");
+        return;
+    }
+
+    // Validate the email format
+    if (!email.includes("@") || !email.includes(".")) {
+        console.error("Invalid email format");
+        alert("Please enter a valid email address");
+        return;
+    }
+
+    // Send POST request to create a new user
     fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,24 +89,23 @@ function createUser() {
         .then((response) => response.json())
         .then((user) => {
             console.log("Created user:", user);
-            // Add the new user to rawData.data
+            // Add the new user to rawData and update the views
             rawData.data.push({
-                // ...user expands the user object
                 ...user,
-                id: rawData.data.length + 1,
                 first_name: name,
                 last_name: lastName,
                 email: email,
             });
-
-            // Update the views without re-fetching all users
             renderUsers();
             if (isJsonView) {
                 document.getElementById("jsonView").textContent =
                     JSON.stringify(rawData, null, 2);
             }
         })
-        .catch((error) => console.error("Error creating user:", error));
+        .catch((error) => {
+            console.error("Error creating user:", error);
+            alert("Failed to create user");
+        });
 }
 
 function updateUser(id) {
@@ -111,7 +134,7 @@ function updateUser(id) {
                 email: newEmail,
             });
         });
-        renderUsers();
+    renderUsers();
 }
 
 function deleteUser(userId) {
@@ -120,10 +143,10 @@ function deleteUser(userId) {
             if (response.ok) {
                 console.log("User deleted successfully");
 
-                const numericId = + userId; // Convert to number to compare with id in rawData
+                const numericId = +userId; // Convert to number to compare with id in rawData
                 rawData.data = rawData.data.filter(
                     (user) => user.id !== numericId
-                ); // this code filters out the user with the given id from the rawData array of users and returns a new array without that user 
+                ); // this code filters out the user with the given id from the rawData array of users and returns a new array without that user
 
                 const userDiv = document.getElementById(`user-${userId}`);
                 if (userDiv) {
